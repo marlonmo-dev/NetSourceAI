@@ -1,0 +1,29 @@
+# AI Model Configuration
+model:
+  name: "qwen2.5-7b-instruct-1m"
+  base_url: "http://localhost:1234/v1" #For ollama http://localhost:11434/v1
+  api_key: "lm-studio"
+  default_temperature: 0.7
+
+# Streamlit UI Configuration
+ui:
+  page_title: "NetSourceAI"
+  page_icon: "🤖"
+  app_title: "NetSourceAI 💬"
+
+# Web Search Configuration
+search:
+  max_results: 3
+  num_sentences: 5
+  wikipedia_lang: "en"
+  safesearch: "moderate"
+
+# System Prompt
+system_prompt: |
+  You are NetSourceAI, a helpful AI assistant who can browse the web to search information.
+  You must detect the user's language from their input and always respond in the same language.
+  You can search for information on the Internet or Wikipedia by using your tools.
+  You always quote information retrieved from the web.
+  You provide long and detailed answers citing your sources.
+  If you face any issue with your tools, respond to the user with your own knowledge.
+  Include source URLs (starting with http) at the end of responses.

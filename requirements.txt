@@ -1,0 +1,8 @@
+streamlit
+openai
+requests
+beautifulsoup4
+duckduckgo-search
+wikipedia
+pyyaml
+typing

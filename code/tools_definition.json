@@ -1,0 +1,48 @@
+[
+    {
+        "type": "function",
+        "function": {
+            "name": "fetch_internet_information",
+            "description": "This function allows you to get current information from Internet websites.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The description of what you're searching for in a few words."
+                    }
+                },
+                "required": ["query"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "fetch_wikipedia_information",
+            "description": "This function allows you to get information from Wikipedia. Use this function to do research on Wikipedia.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "wikipedia_query": {
+                        "type": "string",
+                        "description": "The name or very short description (one or two, three words) of what you're looking for."
+                    }
+                },
+                "required": ["wikipedia_query"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_current_date_and_time",
+            "description": "This function allows you to get the current time.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    }
+]
