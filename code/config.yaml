@@ -1,6 +1,6 @@
 # AI Model Configuration
 model:
-  name: "qwen2.5-7b-instruct-1m"
+  name: "google_gemma-3-4b-it"
   base_url: "http://localhost:1234/v1" #For ollama http://localhost:11434/v1
   api_key: "lm-studio"
   default_temperature: 0.7

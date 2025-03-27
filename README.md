@@ -15,7 +15,9 @@ A simple intelligent conversational assistant that combines the power of open-so
 # 1. Install LM Studio from https://lmstudio.ai/
 # 2. Install and run a model
 pip install lms
-lms get qwen2.5
+lms get google_gemma-3-4b-it
+lms load google_gemma-3-4b-it
+lms server start
 git clone https://github.com/marlonmo-dev/NetSourceAI.git && cd NetSourceAI
 pip install -r requirements.txt
 streamlit run app.py

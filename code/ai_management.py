@@ -85,8 +85,13 @@ class Ai_Management:
         )
         
         if response.choices[0].message.tool_calls:
-            # Process tool calls
-            self.tool_calls_gestion(response)
+            print("Tool call received and being processed")
+            # Extract tool calls from the response
+            tool_calls = response.choices[0].message.tool_calls
+            # Add tool calls to history
+            self._add_tool_calls_to_history(tool_calls)
+            # Process each tool call
+            self._process_tool_calls(tool_calls)
             # Returns final response
             return self._generate_final_response()
         else:
@@ -128,22 +133,6 @@ class Ai_Management:
         return ai_output
     
     # --- Tool Calls Processing ---
-    
-    def tool_calls_gestion(self, response: Any) -> None:
-        """Process and execute tool calls from AI response.
-        
-        Args:
-            response: OpenAI API response containing tool calls
-        """
-        print("Tool call received and being processed")
-        # Extract tool calls from the response
-        tool_calls = response.choices[0].message.tool_calls
-        
-        # Add tool calls to history
-        self._add_tool_calls_to_history(tool_calls)
-        
-        # Process each tool call
-        self._process_tool_calls(tool_calls)
     
     def _add_tool_calls_to_history(self, tool_calls: List[Any]) -> None:
         """Add tool calls to conversation history.
