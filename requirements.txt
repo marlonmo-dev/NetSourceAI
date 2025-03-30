@@ -6,3 +6,5 @@ duckduckgo-search
 wikipedia
 pyyaml
 typing
+pyttsx3
+markdown
