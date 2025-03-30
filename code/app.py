@@ -46,6 +46,8 @@ class GUI:
         """Initialize or reset session state variables."""
         if 'messages' not in st.session_state:
             st.session_state.messages = []
+        if 'speech_enabled' not in st.session_state:
+            st.session_state.speech_enabled = self.config["ui"]["sound_enabled"]
     
     # --- Interface Rendering Methods ---
     
@@ -70,6 +72,8 @@ class GUI:
                 value=self.config["model"]["default_temperature"],
                 step=0.1
             )
+
+            st.session_state.speech_enabled = st.toggle("🔊 Voice Output", value=st.session_state.speech_enabled)
             
             if st.button("🗑️ Clear history"):
                 self._clear_chat_history()

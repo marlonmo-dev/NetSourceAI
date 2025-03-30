@@ -10,6 +10,7 @@ ui:
   page_title: "NetSourceAI"
   page_icon: "🤖"
   app_title: "NetSourceAI 💬"
+  sound_enabled: false
 
 # Web Search Configuration
 search:

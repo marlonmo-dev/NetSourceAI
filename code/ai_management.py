@@ -3,8 +3,11 @@ This module handles all AI-related functionality including model initialization,
 conversation management, and tool calls processing.
 """
 
-from openai import OpenAI
 from tools_management import Tools_Class
+from speech_manager import SpeechManager
+import concurrent.futures
+import streamlit as st
+from openai import OpenAI
 from typing import Dict, Any, List
 import json
 import yaml
@@ -32,6 +35,7 @@ class Ai_Management:
     
     def __init__(self):
         """Initialize all AI components and configurations."""
+        self.speech_manager = SpeechManager()
         self._load_configuration()
         self._setup_client()
         self._initialize_conversation()
@@ -73,9 +77,9 @@ class Ai_Management:
         Returns:
             str: AI generated response
         """
-        # Adds user message to history
+        # Add user message to history
         self.history.append({"role": "user", "content": str(message)})
-        # Gets AI response
+        # Get AI response
         print("AI is thinking...")
         response = self.client.chat.completions.create(
             model=self.model,
@@ -96,10 +100,14 @@ class Ai_Management:
             return self._generate_final_response()
         else:
             content = response.choices[0].message.content
+            # Speak the AI response if enabled
+            if st.session_state.speech_enabled:
+                with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+                    executor.submit(self.speech_manager.text_to_speech, content)
             print(content)
-            # Adds AI response to history
+            # Add AI response to history
             self.history.append({"role": "assistant", "content": content})
-            # Returns final response
+            # Return final response
             return content
     
     # --- Final Response Generation ---
@@ -110,7 +118,7 @@ class Ai_Management:
         Returns:
             str: Final AI response
         """
-        # Stream the AI response
+        # AI response stream
         print("AI is thinking...")
         stream_response = self.client.chat.completions.create(
             model=self.model,
@@ -118,15 +126,22 @@ class Ai_Management:
             stream=True
         )
         
-        # Process the streamed response
+        # Process streaming response
+        text = ""
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
         ai_output = ""
         for chunk in stream_response:
             if chunk.choices[0].delta.content:
                 content = chunk.choices[0].delta.content
                 print(content, end="", flush=True)
                 ai_output += content
+                text += content
+                # Activate text-to-speech if enabled
+                if st.session_state.speech_enabled and text.endswith((".", ";", "!", "?")):
+                    executor.submit(self.speech_manager.text_to_speech, text)
+                    text = ""
         
-        # Add the final AI output to history
+        # Add final AI output to history
         self.history.append({"role": "assistant", "content": ai_output})
         print("\n"*2)
         
@@ -187,4 +202,3 @@ class Ai_Management:
                 "content": json.dumps({"status": "success", "message": result}),
                 "tool_call_id": tool_call.id,
             })
-    
